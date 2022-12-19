@@ -11,12 +11,12 @@
 <body class="container mt-5">
     <div class="alert alert-primary display-1 text-center">Agregar Inscripcion</div>
 
-    <form method="POST">
+    <form method="POST" action="/inscripciones/">
         <table class="table">
             {{ form.as_table}}
             {% csrf_token %}
         </table>
-        <input type="submit" value="AGREGAR" class="btn btn-secondary">
+        <button class="btn btn-dark">AGREGAR</button>
     </form>
     <a href="../inscripciones" class="btn btn-danger mt-5">Volver</a>
 </body>

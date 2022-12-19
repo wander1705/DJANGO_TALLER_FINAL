@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from persona_APP.models import Proyecto
+from persona_APP.models import Proyecto, Institucion
 from persona_APP.forms import FormProyecto
 from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import api_view
-from .serializers import ProyectosSerializer
+from .serializers import ProyectosSerializer, InstitucionSerializer
 from rest_framework.views import APIView
 from django.http import Http404
 
@@ -59,12 +59,12 @@ def verinscripcionDb(request):
 @api_view(['GET', 'POST'])
 def inscripcion_list(request):
     if request.method == 'GET':
-        estu = Proyecto.objects.all()
-        serial = ProyectosSerializer(estu, many=True)
+        estu = Institucion.objects.all()
+        serial = InstitucionSerializer(estu, many=True)
         return Response(serial.data)
     
     if request.method == 'POST':
-        serial = ProyectosSerializer(data = request.data)
+        serial = InstitucionSerializer(data = request.data)
         if serial.is_valid():
             serial.save()
             return Response(serial.data, status=status.HTTP_201_CREATED)
@@ -73,16 +73,16 @@ def inscripcion_list(request):
 @api_view(['GET', 'PUT', 'DELETE'])
 def inscripcion_detalle(request, pk):
     try:
-        estu = Proyecto.objects.get(id = pk)
-    except Proyecto.DoesNotExist:
+        estu = Institucion.objects.get(id = pk)
+    except Institucion.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serial = ProyectosSerializer(estu)
+        serial = InstitucionSerializer(estu)
         return Response(serial.data)
 
     if request.method == 'PUT':
-        serial = ProyectosSerializer(estu, data=request.data)
+        serial = InstitucionSerializer(estu, data=request.data)
         if serial.is_valid():
             serial.save()
             return Response(serial.data)
@@ -92,7 +92,7 @@ def inscripcion_detalle(request, pk):
         estu.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-#Function class
+#Class
 
 class Listarinscritos(APIView):
 
